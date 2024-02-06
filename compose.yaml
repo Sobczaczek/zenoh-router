@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  zenoh:
+    container_name: zenoh_router
+    image: eclipse/zenoh
+    restart: always
+    ports:
+      - 7447:7447 # default Zenoh tcp port
+      - 8000:8000 # default Zenoh REST port
+    volumes:
+      - ./data:/root/.zenoh
+      - ./router.json5:/etc/zenoh/router.json5
+      - ./entrypoint.sh:/entrypoint.sh:ro
+    environment:
+      - RUST_LOG=debug
+    entrypoint: /entrypoint.sh # specify entry file
